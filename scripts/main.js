@@ -20,6 +20,9 @@ var trash = 0;
 for (var i = 0; i < 222; i++) {
     keys.push(false);
 }
+for (var i = 0;i <= 10;i ++) {
+	squares.push(new Square(Math.floor(Math.random() * (canvas.width + 1)), Math.floor(Math.random() * (canvas.width + 1)), 10, '#' + Math.floor(Math.random() * 16777215).toString(16)));
+}
 
 function Circle(x, y, size, color) {
     this.x = x;
@@ -116,10 +119,10 @@ function detect() {
     }
     for (var i = 0; i < del.length; i++) {
         squares.splice(del[i], 1);
+        circle.size += 1;
         score += 1;
     }
-    circle.size = score + 1
-;}
+}
 
 function loop() {
     detect();
@@ -137,6 +140,12 @@ function spawn() {
     } else time = setTimeout(spawn, rate);
 }
 
+function shrink() {
+	clearTimeout(swink);
+	circle.size -= 5;
+	shwink = setTimeout(shrink, 20000);
+
+}
 function keyUp(e) {
     key = e.keyCode;
     keys[key] = false;
@@ -148,6 +157,7 @@ function keyDetect(e) {
 }
 setInterval(loop, 28);
 var time = setTimeout(spawn, rate);
+var swink = setTimeout(shrink, 20000)
 document.addEventListener("keydown", keyDetect);
 document.addEventListener("keyup", keyUp);
 /*
