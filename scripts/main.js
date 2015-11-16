@@ -1,8 +1,10 @@
 //var socket = io();
 //var name = "PI LOVER";
 var canvas = document.getElementById("canvas");
-canvas.width = window.innerWidth - 10;
-canvas.height = window.innerHeight - 33;
+var width = 1270;
+var height = 750;
+//width = window.innerWidth - 10;
+//anvas.height = window.innerHeight - 33;
 
 var score = 0;
 var ctx = canvas.getContext("2d");
@@ -12,16 +14,16 @@ var recentKey = 0;
 var key = 0;
 var accel = 1.8;
 var keys = [];
-var circle = new Circle(canvas.width /2, canvas.height / 2, 5, "#00ff00");
+var circle = new Circle(width /2, height / 2, 5, "#00ff00");
+var circle2 = new Circle(width/3, height/3, 5, "#00ffaa");
 var squares = [];
 var rate = 3000;
-var trash = 0;
 
 for (var i = 0; i < 222; i++) {
     keys.push(false);
 }
 for (var i = 0;i <= 10;i ++) {
-	squares.push(new Square(Math.floor(Math.random() * (canvas.width + 1)), Math.floor(Math.random() * (canvas.width + 1)), 10, '#' + Math.floor(Math.random() * 16777215).toString(16)));
+	squares.push(new Square(Math.floor(Math.random() * (width + 1)), Math.floor(Math.random() * (width + 1)), 10, '#' + Math.floor(Math.random() * 16777215).toString(16)));
 }
 
 function Circle(x, y, size, color) {
@@ -29,6 +31,9 @@ function Circle(x, y, size, color) {
     this.y = y;
     this.size = size;
     this.color = color;
+    this.xvel = 0;
+    this.yvel = 0;
+    this.score = 0;
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -68,48 +73,49 @@ function shadeColor(color, percent) {
     return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 }
 
-function collision(circle, rect) {
-    var distX = Math.abs(circle.x - rect.x - rect.size / 2);
-    var distY = Math.abs(circle.y - rect.y - rect.size / 2);
-    if (distX > (rect.size / 2 + circle.size)) return false;
-    if (distY > (rect.size / 2 + circle.size)) return false;
-    if (distX <= (rect.size / 2)) return true;
-    if (distY <= (rect.size / 2)) return true;
-    var dx = distX - rect.size / 2;
-    var dy = distY - rect.size / 2;
-    return (dx * dx + dy * dy <= (circle.size * circle.size));
-}
-
 function draw() {
     var freq = 30;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (var i = 0; i <= canvas.width; i = i + freq) {
+    ctx.clearRect(0, 0, width, height);
+    for (var i = 0; i <= width; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(i, 0, 1, canvas.height);
+        ctx.fillRect(i, 0, 1, height);
     }
-    for (var i = 0; i <= canvas.height; i = i + freq) {
+    for (var i = 0; i <= height; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(0, i, canvas.width, 1);
+        ctx.fillRect(0, i, width, 1);
     }
     circle.draw();
+    circle2.draw();
     for (var i = 0; i < squares.length; i++) {
         squares[i].draw();
     }
 }
 
 function move() {
-    xvel *= 0.85;
-    yvel *= 0.85;
-    if (keys[37]) xvel -= accel;
-    if (keys[39]) xvel += accel;
-    if (keys[38]) yvel -= accel;
-    if (keys[40]) yvel += accel;
+    circle.xvel *= 0.85;
+    circle.yvel *= 0.85;
+    circle2.xvel *= 0.85;
+    circle2.yvel *= 0.85;
+    if (keys[37]) circle.xvel -= accel;
+    if (keys[39]) circle.xvel += accel;
+    if (keys[38]) circle.yvel -= accel;
+    if (keys[40]) circle.yvel += accel;
+    if(keys[87]) circle2.yvel += accel;
+    if(keys[83]) circle2.yvel -= accel;
+    if(keys[68]) circle2.xvel += accel;
+    if(keys[65]) circle2.xvel -= accel;
     circle.x += xvel;
     circle.y += yvel;
-    if (circle.x < 0) {circle.x = canvas.width/2; score--;}
-    if (circle.x > canvas.width) {circle.x = canvas.width/2; score--;}
-    if (circle.y < 0) {circle.y = canvas.height/2; score--;}
-    if (circle.y > canvas.height) {circle.y = canvas.height/2;score--;}
+    circle2.x += xvel;
+    circle2.y += yvel;
+    if (circle.x < 0) {circle.x = width/2; circle.score--;}
+    if (circle.x > width) {circle.x = width/2; circle.score--;}
+    if (circle.y < 0) {circle.y = height/2; circle.score--;}
+    if (circle.y > height) {circle.y = height/2;circle.score--;}
+    if (circle2.x < 0) {circle2.x = width/2; circle2.score--;}
+    if (circle2.x > width) {circle2.x = width/2; circle2.score--;}
+    if (circle2.y < 0) {circle2.y = height/2; circle2.score--;}
+    if (circle2.y > height) {circle2.y = height/2;circle2.score--;}
 }
 
 function detect() {
@@ -120,7 +126,7 @@ function detect() {
     for (var i = 0; i < del.length; i++) {
         squares.splice(del[i], 1);
         circle.size += 1;
-        score += 1;
+        cicle.score += 1;
     }
 }
 
@@ -132,7 +138,10 @@ function loop() {
 }
 
 function spawn() {
-    squares.push(new Square(Math.floor(Math.random() * (canvas.width + 1)), Math.floor(Math.random() * (canvas.width + 1)), 10, '#' + Math.floor(Math.random() * 16777215).toString(16)));
+    squares.push(new Square(Math.floor(Math.random() * (width + 1)), 
+    						Math.floor(Math.random() * (width + 1)), 
+    						10, 
+    						'#' + Math.floor(Math.random() * 16777215).toString(16)));
     if (Math.random() > 0.5) {
         clearTimeout(time);
         rate = 3000 * (squares.length + 50)/50;
@@ -143,7 +152,7 @@ function spawn() {
 function shrink() {
 	clearTimeout(swink);
 	circle.size -= 5;
-	shwink = setTimeout(shrink, 20000);
+	swink = setTimeout(shrink, 20000);
 
 }
 function keyUp(e) {
