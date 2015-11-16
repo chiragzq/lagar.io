@@ -38,14 +38,19 @@ io.on('connection', function(socket){
 							 Math.floor(Math.random() * (canvas.width + 1)), 
 							 10,
 							 '#' + Math.floor(Math.random() * 16777215).toString(16),
-							 "1"));
+							 "1")
+	);
+	io.emit('game_state', JSON.stringify)
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
 	});
-	socket.on('chat message', function(msg){
-		console.log(msg);
-		io.emit('chat message', msg);
+	socket.on('control', function(control) {
+		console.log(control);
 	});
+	//socket.on('chat message', function(msg){
+	//	console.log(msg);
+	//	io.emit('chat message', msg);
+	//});
 });
 
 http.listen(process.env.PORT || 3000, function(){
