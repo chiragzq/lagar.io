@@ -3,13 +3,14 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var express = require('express');
 
-function Circle(x, y, size, color) {
+function Circle(x, y, size, color, id) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.color = color;
     this.xvel = 0;
     this.yvel = 0;
+    this.id = id;
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -33,10 +34,11 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-	circles.push(new Circle((Math.floor(Math.random() * (canvas.width + 1)),
+	circles.push(new Circle(Math.floor(Math.random() * (canvas.width + 1)),
 							 Math.floor(Math.random() * (canvas.width + 1)), 
 							 10,
-							 '#' + Math.floor(Math.random() * 16777215).toString(16))));
+							 '#' + Math.floor(Math.random() * 16777215).toString(16),
+							 "1"));
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
 	});

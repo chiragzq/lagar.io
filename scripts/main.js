@@ -6,13 +6,7 @@ var height = 750;
 //width = window.innerWidth - 10;
 //anvas.height = window.innerHeight - 33;
 
-var score = 0;
 var ctx = canvas.getContext("2d");
-var xvel = 0;
-var yvel = 0;
-var recentKey = 0;
-var key = 0;
-var accel = 1.8;
 var keys = [];
 var circle = new Circle(width /2, height / 2, 5, "#00ff00");
 var circle2 = new Circle(width/3, height/3, 5, "#00ffaa");
@@ -134,7 +128,7 @@ function loop() {
     detect();
     move();
     draw();
-    document.getElementById("score").innerHTML = "Score: " + score;
+    document.getElementById("score").innerHTML = "Score: " + circle.score;
 }
 
 function spawn() {
@@ -156,12 +150,12 @@ function shrink() {
 
 }
 function keyUp(e) {
-    key = e.keyCode;
+    var key = e.keyCode;
     keys[key] = false;
 }
 
 function keyDetect(e) {
-    key = e.keyCode;
+    var key = e.keyCode;
     keys[key] = true;
 }
 setInterval(loop, 28);
