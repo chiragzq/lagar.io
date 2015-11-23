@@ -12,17 +12,13 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket) {
-	io.emit('game_state', JSON.stringify)
+    console.log("A user connected.");
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
 	});
 	socket.on('control', function(control) {
 		console.log(control);
 	});
-	//socket.on('chat message', function(msg){
-	//	console.log(msg);
-	//	io.emit('chat message', msg);
-	//});
 });
 
 http.listen(process.env.PORT || 3000, function(){
