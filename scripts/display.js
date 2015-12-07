@@ -79,4 +79,5 @@ function players(server) {
 function draw(server) { //MAIN drawing loop
   players(server);
 	grid();
+	//FOO
 }
