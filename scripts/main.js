@@ -3,5 +3,8 @@ initControls();
 
 setInterval(function(){
   draw(serverState);
-  handleControls();
 }, 50);
+
+setInterval(function(){
+  handleControls();
+}, 200);
