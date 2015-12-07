@@ -7,6 +7,10 @@ function initDisplay(server) { //initial canvas stuff
 	serverState = server;
 }
 
+function updateDisplay(server) {
+	serverState = server;
+}
+
 function Circle(x, y, size, color) {
     this.x = x;
     this.y = y;

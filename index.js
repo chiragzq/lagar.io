@@ -48,7 +48,11 @@ io.on('connection', function(socket) {
 	socket.on('disconnect', function() {
 		console.log('player ' + playerIndex + " disconnected");
 		server.removePlayer(playerIndex);
+		clearInterval(int);
 	});
+	var int = setInterval(function() {
+		socket.emit('update_server', server);
+	}, 500)
 });
 
 http.listen(process.env.PORT || 3000, function(){
