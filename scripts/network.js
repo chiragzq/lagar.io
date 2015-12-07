@@ -1,7 +1,11 @@
-var socket = io();
+function initNetwork() {
+	var socket = io();
+	socket.on('init_player', function(player) {
+		console.log(player); //print player data
+	});
 
-socket.on('game_state', function(state) {
-	console.log(state);
-});
-
-console.log("HELLO");
+	socket.on('init_server', function(server) {
+		console.log(server); //print server data
+		initDisplay(server); //initial canvas stuff
+	});
+}
