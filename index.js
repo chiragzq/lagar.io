@@ -7,7 +7,7 @@ function ServerState() {
 		var player = new Player(
 			Math.floor(Math.random() * 601),
 			Math.floor(Math.random() * 601),
-			10, 
+			10,
 			'#'+Math.floor(Math.random()*16777215).toString(16)
 			, this.pnum++);
 		this.players.push(player);
@@ -43,7 +43,7 @@ io.on('connection', function(socket) {
 	console.log("A user connected. His pnum is " + server.pnum);
 
 	socket.emit('init_player', playerIndex); //Give player initial data
-	socket.emit('init_server', server); //Give player server data 
+	socket.emit('init_server', server); //Give player server data
 
 	socket.on('disconnect', function() {
 		console.log('player ' + playerIndex + " disconnected");

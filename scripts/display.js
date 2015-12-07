@@ -42,7 +42,6 @@ function Square(x, y, size, color) {
 
 function grid() {
 	var freq = 30;
-    ctx.clearRect(0, 0, 600, 600);
     for (var i = 0; i <= 600; i = i + freq) {
         ctx.fillStyle = "#808080";
         ctx.fillRect(i, 0, 1, 600);
@@ -63,21 +62,20 @@ function shadeColor(color, percent) {
     return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 }
 
-function players(server) {
+function playerRender(server) {
 	var circle = 0;
-//	console.log(server.players.length);
 	for(var i = 0;i < server.players.length;i ++) {
 		circle = new Circle(
 			server.players[i].x,
 			server.players[i].y,
 			server.players[i].size,
 			server.players[i].color);
-			circle.draw();
+		circle.draw();
 	}
 }
 
 function draw(server) { //MAIN drawing loop
-  players(server);
+	ctx.clearRect(0, 0, 600, 600);
 	grid();
-	//FOO
+  playerRender(server);
 }
