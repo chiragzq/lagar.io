@@ -1,5 +1,6 @@
+var socket;
 function initNetwork() {
-	var socket = io();
+	socket = io();
 
 	socket.on('init_server', function(server) {
 		initDisplay(server); //initial canvas stuff

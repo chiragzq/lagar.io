@@ -21,6 +21,17 @@ function ServerState() {
 			}
 		}
 	};
+	this.move = function(keys, index) {
+		for(var i = 0;i < this.players.length;i ++) {
+			if(this.players[i].index == index) {
+				if(keys.left) this.players[i].x -= 10;
+				if(keys.right) this.players[i].x += 10;
+				if(keys.up) this.players[i].y -= 10;
+				if(keys.down) this.players[i].y += 10;
+				return;
+			}
+		}
+	}
 }
 
 var app = require('express')();
@@ -50,9 +61,13 @@ io.on('connection', function(socket) {
 		server.removePlayer(playerIndex);
 		clearInterval(int);
 	});
+
+	socket.on('client_controls', function(keys) {
+		server.move(keys, playerIndex);
+	});
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
-	}, 500)
+	}, 500);
 });
 
 http.listen(process.env.PORT || 3000, function(){
