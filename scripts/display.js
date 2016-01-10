@@ -78,8 +78,21 @@ function playerRender(server) {
 	}
 }
 
+function squareRender(server) {
+	var square = 0;
+	for(var i = 0; i < server.squareNum;i ++) {
+		square = new Square(
+			server.squareX[i],
+			server.squareY[i],
+			5,
+			'#'+Math.floor(Math.random()*16777215).toString(16));
+		square.draw();
+	}
+}
+
 function draw(server) { //MAIN drawing loop
 	ctx.clearRect(0, 0, 600, 600);
 	grid();
   playerRender(server);
+	squareRender(server);
 }

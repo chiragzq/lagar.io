@@ -1,6 +1,9 @@
 initNetwork();
 initControls();
 
+setInterval(function() {
+  
+})
 setInterval(function(){
   draw(serverState);
 }, 50);

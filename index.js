@@ -3,6 +3,14 @@ function ServerState() {
 	this.players = [];//Plyaers array
 	this.worldWidth = 600; //Playing dimenetion
 	this.worldHeight = 600;
+	this.squareNum = 0;
+	this.squareX = []; //Squares X coords
+	this.squareY = []; //Squares Y coords
+	this.addSquare = function() {
+		this.squareX.push(Math.floor(Math.random() * 601));
+		this.squareY.push(Math.floor(Math.random() * 601));
+		this.squareNum++;
+	}
 	this.createPlayer = function() {
 		var player = new Player(
 			Math.floor(Math.random() * 601),
@@ -68,6 +76,9 @@ io.on('connection', function(socket) {
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
 	}, 500);
+	setInterval(function() {
+		server.addSquare();
+	}, 6000);
 });
 
 http.listen(process.env.PORT || 3000, function(){
