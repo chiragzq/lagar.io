@@ -38,8 +38,9 @@ function Square(x, y, size, color) {
         ctx.rect(this.x, this.y, this.size, this.size);
         ctx.fillStyle = this.color;
         ctx.fill();
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 5;
         ctx.strokeStyle = shadeColor(this.color, -0.4);
+				ctx.stroke();
         ctx.closePath();
     }
 }
@@ -82,9 +83,10 @@ function squareRender(server) {
 	var square = 0;
 	for(var i = 0; i < server.squareNum;i ++) {
 		square = new Square(
-			server.squareX[i],
-			server.squareY[i],
-			server.squareColor[i]);
+			server.squares[i].x,
+			server.squares[i].y,
+			15,
+			server.squares[i].color);
 		square.draw();
 	}
 }

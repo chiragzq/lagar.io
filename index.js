@@ -4,14 +4,16 @@ function ServerState() {
 	this.worldWidth = 600; //Playing dimenetion
 	this.worldHeight = 600;
 	this.squareNum = 0;
-	this.squareX = []; //Squares X coords
-	this.squareY = []; //Squares Y coords
-	this.squareColor = []; //Squares colorz
+	this.squares = [];
 	this.addSquare = function() {
-		this.squareX.push(Math.floor(Math.random() * 601));
-		this.squareY.push(Math.floor(Math.random() * 601));
-		this.squareColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
+		this.squares.push(new Square(Math.floor(Math.random() * 601),
+		Math.floor(Math.random() * 601),
+		15,
+		'#'+Math.floor(Math.random()*16777215).toString(16)));
 		this.squareNum++;
+	};
+	this.removeSquare = function(index) {
+		this.squares.splice(index,1);
 	}
 	this.createPlayer = function() {
 		var player = new Player(
@@ -41,7 +43,23 @@ function ServerState() {
 				return;
 			}
 		}
-	}
+	};
+	this.eat = function(player, square) {
+
+	};
+	var t = this;
+	this.mainLoop = function() {
+		var Delete = [];
+		for(var i = 0;i < t.players.length;i ++) {
+			for(var j = 0;j < t.squares.length;j ++) {
+				if(collision(t.players[i], t.squares[j])) Delete.push(j);
+			}
+			for(var j = Delete.length-1;j >= 0;j--) {
+				t.removeSquare(j);
+			}
+		}
+	};
+	setInterval(this.mainLoop, 50);
 }
 
 var app = require('express')();
@@ -88,10 +106,39 @@ http.listen(process.env.PORT || 3000, function(){
   console.log('listening on', http.address().port);
 });
 
+function collision(circle, rect) {
+    var distX = Math.abs(circle.x - rect.x - rect.size / 2);
+    var distY = Math.abs(circle.y - rect.y - rect.size / 2);
+    if (distX > (rect.size / 2 + circle.size)) return false;
+    if (distY > (rect.size / 2 + circle.size)) return false;
+    if (distX <= (rect.size / 2)) return true;
+    if (distY <= (rect.size / 2)) return true;
+    var dx = distX - rect.size / 2;
+    var dy = distY - rect.size / 2;
+    return (dx * dx + dy * dy <= (circle.size * circle.size));
+}
+
 function Player(x, y, size, color, index) { //Players object 4 server
 	this.x = x;
 	this.y = y;
 	this.size = size;
 	this.color = color;
 	this.index = index;
+}
+
+function Square(x, y, size, color) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.color = color;
+    this.draw = function () {
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.size, this.size);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = shadeColor(this.color, -0.4);
+				ctx.stroke();
+        ctx.closePath();
+    }
 }
