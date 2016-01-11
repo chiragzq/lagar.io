@@ -84,8 +84,7 @@ function squareRender(server) {
 		square = new Square(
 			server.squareX[i],
 			server.squareY[i],
-			5,
-			'#'+Math.floor(Math.random()*16777215).toString(16));
+			server.squareColor[i]);
 		square.draw();
 	}
 }

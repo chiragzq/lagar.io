@@ -6,9 +6,11 @@ function ServerState() {
 	this.squareNum = 0;
 	this.squareX = []; //Squares X coords
 	this.squareY = []; //Squares Y coords
+	this.squareColor = []; //Squares colorz
 	this.addSquare = function() {
 		this.squareX.push(Math.floor(Math.random() * 601));
 		this.squareY.push(Math.floor(Math.random() * 601));
+		this.squareColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
 		this.squareNum++;
 	}
 	this.createPlayer = function() {
@@ -68,6 +70,7 @@ io.on('connection', function(socket) {
 		console.log('player ' + playerIndex + " disconnected");
 		server.removePlayer(playerIndex);
 		clearInterval(int);
+		clearInterval(adds);
 	});
 
 	socket.on('client_controls', function(keys) {
@@ -76,7 +79,7 @@ io.on('connection', function(socket) {
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
 	}, 500);
-	setInterval(function() {
+	var adds = setInterval(function() {
 		server.addSquare();
 	}, 6000);
 });
