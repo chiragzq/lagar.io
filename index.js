@@ -51,11 +51,13 @@ function ServerState() {
 	this.mainLoop = function() {
 		var Delete = [];
 		for(var i = 0;i < t.players.length;i ++) {
+		  Delete = [];
 			for(var j = 0;j < t.squares.length;j ++) {
 				if(collision(t.players[i], t.squares[j])) Delete.push(j);
 			}
 			for(var j = Delete.length-1;j >= 0;j--) {
-				t.removeSquare(j);
+				t.removeSquare(Delete[j]);
+				console.log(Delete);
 			}
 		}
 	};

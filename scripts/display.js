@@ -81,7 +81,7 @@ function playerRender(server) {
 
 function squareRender(server) {
 	var square = 0;
-	for(var i = 0; i < server.squareNum;i ++) {
+	for(var i = 0; i < server.squares.length;i ++) {
 		square = new Square(
 			server.squares[i].x,
 			server.squares[i].y,
