@@ -57,7 +57,6 @@ function ServerState() {
 			}
 			for(var j = Delete.length-1;j >= 0;j--) {
 				t.removeSquare(Delete[j]);
-				console.log(Delete);
 			}
 		}
 	};
@@ -90,7 +89,7 @@ io.on('connection', function(socket) {
 		console.log('player ' + playerIndex + " disconnected");
 		server.removePlayer(playerIndex);
 		clearInterval(int);
-		clearInterval(adds);
+		clearInterval(calcSquare);
 	});
 
 	socket.on('client_controls', function(keys) {
@@ -99,9 +98,23 @@ io.on('connection', function(socket) {
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
 	}, 500);
-	var adds = setInterval(function() {
-		server.addSquare();
-	}, 6000);
+	var rate = 6000;
+	function calcSquare() {
+	  rate = 6000;
+		if(server.players.length * 10 < server.squares.length) {
+		  rate = 10000;
+		}
+		if(server.players.length * 15 < server.squares.length) {
+			rate = 5000;
+		}
+	}
+	function squareLoop() {
+		if(rate == 5000) void(0);
+		else server.addSquare();
+		spawn = setTimeout(squareLoop,rate);
+	}
+	setInterval(calcSquare, 100);
+	var spawn = setTimeout(squareLoop,6000);
 });
 
 http.listen(process.env.PORT || 3000, function(){
