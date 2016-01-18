@@ -91,6 +91,10 @@ function squareRender(server) {
 	}
 }
 
+function update(server) {
+		
+}
+
 function draw(server) { //MAIN drawing loop
 	ctx.clearRect(0, 0, 600, 600);
 	grid();
