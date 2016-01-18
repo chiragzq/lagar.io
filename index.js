@@ -1,13 +1,13 @@
 function ServerState() {
 	this.pnum = 0; //# of players
 	this.players = [];//Plyaers array
-	this.worldWidth = 600; //Playing dimenetion
-	this.worldHeight = 600;
+	this.width = 1110; //Playing dimenetion
+	this.height = 690;
 	this.squareNum = 0;
 	this.squares = [];
 	this.addSquare = function() {
-		this.squares.push(new Square(Math.floor(Math.random() * 601),
-		Math.floor(Math.random() * 601),
+		this.squares.push(new Square(Math.floor(Math.random() * (server.width+1)),
+		Math.floor(Math.random() * (server.height+1)),
 		15,
 		'#'+Math.floor(Math.random()*16777215).toString(16)));
 		this.squareNum++;
@@ -17,8 +17,8 @@ function ServerState() {
 	}
 	this.createPlayer = function() {
 		var player = new Player(
-			Math.floor(Math.random() * 601),
-			Math.floor(Math.random() * 601),
+			Math.floor(Math.random() * (server.width+1)),
+			Math.floor(Math.random() * (server.height+1)),
 			10,
 			'#'+Math.floor(Math.random()*16777215).toString(16)
 			, this.pnum++);
