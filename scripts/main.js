@@ -2,7 +2,7 @@ initNetwork();
 initControls();
 
 setInterval(function() {
-  
+
 })
 setInterval(function(){
   draw(serverState);
@@ -10,4 +10,4 @@ setInterval(function(){
 
 setInterval(function(){
   handleControls();
-}, 200);
+}, 50);

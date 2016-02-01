@@ -1,4 +1,4 @@
-function ServerState() {
+	function ServerState() {
 	this.pnum = 0; //# of players
 	this.players = [];//Plyaers array
 	this.width = 1110; //Playing dimenetion
@@ -44,9 +44,6 @@ function ServerState() {
 			}
 		}
 	};
-	this.eat = function(player, square) {
-
-	};
 	var t = this;
 	this.mainLoop = function() {
 		var Delete = [];
@@ -55,6 +52,18 @@ function ServerState() {
 			t.players[i].y += t.players[i].yvel
 			t.players[i].xvel *= 0.85;
 			t.players[i].yvel *= 0.85;
+			if(t.players[i].x + t.players[i].size > server.width) {
+				t.players[i].x = server.width-t.players[i].size
+			}
+			if(t.players[i].x - t.players[i].size < 0) {
+				t.players[i].x = t.players[i].size;
+			}
+			if(t.players[i].y + t.players[i].size > server.height) {
+				t.players[i].y = server.height-t.players[i].size;
+			}
+			if(t.players[i].y - t.players[i].size < 0) {
+				t.players[i].y = t.players[i].size;
+			}
 		}
 		for(var i = 0;i < t.players.length;i ++) {
 		  Delete = [];
@@ -106,7 +115,7 @@ io.on('connection', function(socket) {
 	});
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
-	}, 500);
+	}, 20);
 	var rate = 6000;
 	function calcSquare() {
 	  rate = 6000;
