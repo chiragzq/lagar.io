@@ -1,4 +1,5 @@
 var socket;
+var player_index;
 function initNetwork() {
 	socket = io();
 
@@ -10,5 +11,20 @@ function initNetwork() {
 	socket.on('update_server', function(server) {
 		updateDisplay(server);
 	});
+	socket.on('init_player', function(pnum) {
+		console.log(pnum);
+		player_index = pnum;
+	});
+}
 
+function myPlayer(server) {
+	return getPlayerByIndex(server,player_index);
+}
+
+function getPlayerByIndex(server, index) {=
+	for(var i = 0;i < server.players.length;i ++) {
+		if(server.players[i].index = index) {
+			return server.players[i];
+		}
+	}
 }

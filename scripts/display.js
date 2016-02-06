@@ -1,7 +1,7 @@
 var ctx = document.getElementById("canvas").getContext("2d");
 var serverState = {};
-var scrollx = 0;
-var scrolly = 0;
+var scrollX = 0;
+var scrollY = 0;
 var scale = 0;
 
 function initDisplay(server) { //initial canvas stuff
@@ -13,7 +13,10 @@ function initDisplay(server) { //initial canvas stuff
 }
 
 function updateDisplay(server) {
+	var player = myPlayer(server);
 	serverState = server;
+	scrollX = server.width/2 - player.x;
+	scrollY = server.height/2 - player.y;
 }
 
 function Circle(x, y, size, color) {
@@ -48,10 +51,6 @@ function Square(x, y, size, color) {
 				ctx.stroke();
         ctx.closePath();
     }
-}
-
-function scroll() {
-
 }
 
 function grid(server) {
@@ -110,3 +109,9 @@ function draw(server) { //MAIN drawing loop
   playerRender(server);
 	squareRender(server);
 }
+window.addEventListener("resize", function() {
+	var w = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+	document.getElementById("canvas").width = w-10;
+	document.getElementById("canvas").height= h-10;
+}, false);
