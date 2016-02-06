@@ -15,8 +15,8 @@ function initDisplay(server) { //initial canvas stuff
 function updateDisplay(server) {
 	var player = myPlayer(server);
 	serverState = server;
-	scrollX = server.width/2 - player.x;
-	scrollY = server.height/2 - player.y;
+	scrollX = canvas.width/2 - player.x;
+	scrollY = canvas.height/2 - player.y;
 }
 
 function Circle(x, y, size, color) {
@@ -105,9 +105,12 @@ function update(server) {
 
 function draw(server) { //MAIN drawing loop
 	ctx.clearRect(0, 0, server.width, server.height);
+	ctx.save();
+	ctx.translate(scrollX, scrollY);
 	grid(server);
   playerRender(server);
 	squareRender(server);
+	ctx.restore();
 }
 window.addEventListener("resize", function() {
 	var w = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;

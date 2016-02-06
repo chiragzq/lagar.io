@@ -12,7 +12,6 @@ function initNetwork() {
 		updateDisplay(server);
 	});
 	socket.on('init_player', function(pnum) {
-		console.log(pnum);
 		player_index = pnum;
 	});
 }
@@ -21,9 +20,9 @@ function myPlayer(server) {
 	return getPlayerByIndex(server,player_index);
 }
 
-function getPlayerByIndex(server, index) {=
+function getPlayerByIndex(server, index) {
 	for(var i = 0;i < server.players.length;i ++) {
-		if(server.players[i].index = index) {
+		if(server.players[i].index == index) {
 			return server.players[i];
 		}
 	}
