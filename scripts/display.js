@@ -1,9 +1,14 @@
 var ctx = document.getElementById("canvas").getContext("2d");
 var serverState = {};
+var scrollx = 0;
+var scrolly = 0;
+var scale = 0;
 
 function initDisplay(server) { //initial canvas stuff
-	document.getElementById("canvas").width = server.width;
-	document.getElementById("canvas").height= server.height;
+	var w = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+	document.getElementById("canvas").width = w-10;
+	document.getElementById("canvas").height= h-10;
 	serverState = server;
 }
 
@@ -45,15 +50,19 @@ function Square(x, y, size, color) {
     }
 }
 
-function grid() {
-	var freq = 30;
-    for (var i = 0; i <= 1110; i = i + freq) {
+function scroll() {
+
+}
+
+function grid(server) {
+	var freq = 45;
+    for (var i = 0; i <= server.width; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(i, 0, 1, 690);
+        ctx.fillRect(i, 0, 1, server.height);
     }
-    for (var i = 0; i <= 690; i = i + freq) {
+    for (var i = 0; i <= server.height; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(0, i, 1110, 1);
+        ctx.fillRect(0, i, server.width, 1);
     }
 }
 
@@ -97,7 +106,7 @@ function update(server) {
 
 function draw(server) { //MAIN drawing loop
 	ctx.clearRect(0, 0, server.width, server.height);
-	grid();
+	grid(server);
   playerRender(server);
 	squareRender(server);
 }

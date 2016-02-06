@@ -1,8 +1,8 @@
 	function ServerState() {
 	this.pnum = 0; //# of players
 	this.players = [];//Plyaers array
-	this.width = 1110; //Playing dimenetion
-	this.height = 690;
+	this.width = 45*40; //1800
+	this.height = 45*40;
 	this.squareNum = 0;
 	this.squares = [];
 	this.addSquare = function() {
@@ -36,10 +36,11 @@
 	this.move = function(keys, index) {
 		for(var i = 0;i < this.players.length;i ++) {
 			if(this.players[i].index == index) {
-				if(keys.left) this.players[i].xvel -= 3;
-				if(keys.right) this.players[i].xvel += 3;
-				if(keys.up) this.players[i].yvel -= 3;
-				if(keys.down) this.players[i].yvel += 3;
+				var accel = 60/this.players[i].size;
+				if(keys.left) this.players[i].xvel -= accel;
+				if(keys.right) this.players[i].xvel += accel;
+				if(keys.up) this.players[i].yvel -= accel;
+				if(keys.down) this.players[i].yvel += accel;
 				return;
 			}
 		}
@@ -50,8 +51,8 @@
 		for(var i = 0;i < t.players.length;i ++) {
 			t.players[i].x += t.players[i].xvel;
 			t.players[i].y += t.players[i].yvel
-			t.players[i].xvel *= 0.85;
-			t.players[i].yvel *= 0.85;
+			t.players[i].xvel *= 0.8;
+			t.players[i].yvel *= 0.8;
 			if(t.players[i].x + t.players[i].size > server.width) {
 				t.players[i].x = server.width-t.players[i].size
 			}
@@ -70,7 +71,7 @@
 			for(var j = 0;j < t.squares.length;j ++) {
 				if(collision(t.players[i], t.squares[j])) {
 					Delete.push(j);
-					t.players[i].size++;
+					t.players[i].grow(100);
 				}
 			}
 			for(var j = Delete.length-1;j >= 0;j--) {
@@ -159,6 +160,11 @@ function Player(x, y, size, color, index) { //Players object 4 server
 	this.index = index;
 	this.xvel = 0;
 	this.yvel = 0;
+	this.grow =	function(amount) {
+		var current = Math.PI * this.size * this.size;
+		current += amount
+		this.size = Math.sqrt(current/Math.PI);
+	}
 }
 
 function Square(x, y, size, color) {
