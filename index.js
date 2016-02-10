@@ -117,11 +117,11 @@ io.on('connection', function(socket) {
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
 	}, 20);
-	var rate = 6000;
+	var rate = 4000;
 	function calcSquare() {
-	  rate = 6000;
+	  rate = 4000;
 		if(server.players.length * 10 < server.squares.length) {
-		  rate = 10000;
+		  rate = 8000;
 		}
 		if(server.players.length * 15 < server.squares.length) {
 			rate = 5000;
