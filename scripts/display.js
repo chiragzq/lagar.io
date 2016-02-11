@@ -3,12 +3,16 @@ var serverState = {};
 var scrollX = 0;
 var scrollY = 0;
 var scale = 0;
+var clientwidth = 0;
+var clientheight = 0;
 
 function initDisplay(server) { //initial canvas stuff
 	var w = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
 	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
-	document.getElementById("canvas").width = w-10;
-	document.getElementById("canvas").height= h-10;
+	document.getElementById("canvas").width = w;
+	document.getElementById("canvas").height= h;
+	clientwidth = w;
+	clientheight = h;
 	serverState = server;
 }
 
@@ -107,7 +111,8 @@ function update(server) {
 }
 
 function draw(server) { //MAIN drawing loop
-	ctx.clearRect(0, 0, server.width, server.height);
+	console.log("X: " + clientwidth + " Y: " + clientheight);
+	ctx.clearRect(0, 0, clientwidth, clientheight);
 	grid(server);
 	ctx.save();
 	ctx.translate(scrollX, scrollY);
@@ -120,4 +125,6 @@ window.addEventListener("resize", function() {
 	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
 	document.getElementById("canvas").width = w;
 	document.getElementById("canvas").height= h;
+	clientheight = h;
+	clientwidth = w;
 }, false);
