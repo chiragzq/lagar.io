@@ -110,8 +110,7 @@ function update(server) {
 
 }
 
-function draw(server) { //MAIN drawing loop
-	console.log("X: " + clientwidth + " Y: " + clientheight);
+function draw(server) { //MAIN drawing loop heoit
 	ctx.clearRect(0, 0, clientwidth, clientheight);
 	grid(server);
 	ctx.save();

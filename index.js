@@ -36,7 +36,7 @@
 	this.move = function(keys, index) {
 		for(var i = 0;i < this.players.length;i ++) {
 			if(this.players[i].index == index) {
-				var accel = 60/this.players[i].size;
+				var accel = 100/this.players[i].size;
 				if(keys.left) this.players[i].xvel -= accel;
 				if(keys.right) this.players[i].xvel += accel;
 				if(keys.up) this.players[i].yvel -= accel;
@@ -120,10 +120,10 @@ io.on('connection', function(socket) {
 	var rate = 4000;
 	function calcSquare() {
 	  rate = 4000;
-		if(server.players.length * 10 < server.squares.length) {
+		if(server.players.length * 12 < server.squares.length) {
 		  rate = 8000;
 		}
-		if(server.players.length * 15 < server.squares.length) {
+		if(server.players.length * 18 < server.squares.length) {
 			rate = 5000;
 		}
 	}
