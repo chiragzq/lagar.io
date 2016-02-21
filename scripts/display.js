@@ -60,16 +60,20 @@ function Square(x, y, size, color) {
 function grid(server) {
 	var freq = 45;
 	var player = myPlayer(server);
-	var xstart = player.x % 45;
-	var ystart = player.y % 45;
-    for (var i = 45 - xstart; i <= server.width; i = i + freq) {
+	var xbounds = clientwidth/2;
+	var ybounds = clientheight/2;
+    for (var i = -Math.floor(xbounds/45)*45-1; i <= server.width+xbounds; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(i, 0, 1, server.height);
+        ctx.fillRect(i, -ybounds, 1, server.height+2*ybounds);
     }
-    for (var i = 45 - ystart; i <= server.height; i = i + freq) {
+    for (var i = -Math.floor(ybounds/45)*45-1; i <= server.height+ybounds; i = i + freq) {
         ctx.fillStyle = "#808080";
-        ctx.fillRect(0, i, server.width, 1);
+        ctx.fillRect(-xbounds, i, server.width+2*xbounds, 1);
     }
+		ctx.fillRect(0,0,5,server.height);
+		ctx.fillRect(0,0,server.width+5,5);
+		ctx.fillRect(server.width,0,5,server.height);
+		ctx.fillRect(0,server.height,server.width+5,5);
 }
 
 function shadeColor(color, percent) {
@@ -112,9 +116,9 @@ function update(server) {
 
 function draw(server) { //MAIN drawing loop heoit
 	ctx.clearRect(0, 0, clientwidth, clientheight);
-	grid(server);
 	ctx.save();
 	ctx.translate(scrollX, scrollY);
+	grid(server);
   playerRender(server);
 	squareRender(server);
 	ctx.restore();
