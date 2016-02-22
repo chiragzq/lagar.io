@@ -56,20 +56,22 @@ function Square(x, y, size, color) {
         ctx.closePath();
     }
 }
-
 function grid(server) {
 	var freq = 45;
 	var player = myPlayer(server);
 	var xbounds = clientwidth/2;
 	var ybounds = clientheight/2;
     for (var i = -Math.floor(xbounds/45)*45-1; i <= server.width+xbounds; i = i + freq) {
+				if(i < player.x-clientwidth/2 || i > player.x+clientwidth/2)continue;
         ctx.fillStyle = "#808080";
-        ctx.fillRect(i, -ybounds, 1, server.height+2*ybounds);
+        ctx.fillRect(i, player.y-clientheight/2, 1, clientheight);
     }
     for (var i = -Math.floor(ybounds/45)*45-1; i <= server.height+ybounds; i = i + freq) {
+				if(i < player.y-clientheight/2 || i > player.y+clientheight/2)continue;
         ctx.fillStyle = "#808080";
-        ctx.fillRect(-xbounds, i, server.width+2*xbounds, 1);
+        ctx.fillRect(player.x-clientwidth/2, i, clientwidth, 1);
     }
+		ctx.fillStyle="red";
 		ctx.fillRect(0,0,5,server.height);
 		ctx.fillRect(0,0,server.width+5,5);
 		ctx.fillRect(server.width,0,5,server.height);

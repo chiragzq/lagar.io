@@ -37,10 +37,16 @@
 		for(var i = 0;i < this.players.length;i ++) {
 			if(this.players[i].index == index) {
 				var accel = 100/this.players[i].size;
-				if(keys.left) this.players[i].xvel -= accel;
-				if(keys.right) this.players[i].xvel += accel;
-				if(keys.up) this.players[i].yvel -= accel;
-				if(keys.down) this.players[i].yvel += accel;
+				var xdis = this.players[i].x-keys.mouseX;
+				var ydis = this.players[i].y-keys.mouseY;
+				var h = Math.sqrt(xdis*xdis+ydis*ydis);
+				if(h < 30) h = 20;
+				var ax = accel*xdis/h;
+				var ay = accel*ydis/h;
+				if(Math.abs(ax) < 1) ax = 0;
+				if(Math.abs(ay) < 1) ay = 0;
+				this.players[i].xvel -= ax;
+				this.players[i].yvel -= ay;
 				return;
 			}
 		}
