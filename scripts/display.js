@@ -37,9 +37,17 @@ function Circle(x, y, size, color) {
         ctx.strokeStyle = shadeColor(this.color, -0.4);
         ctx.stroke();
         ctx.closePath();
-				ctx.font="24px Monospace";
-				ctx.fillStyle="black";
-				ctx.fillText("Hello",clientwidth/2,clientheight/2);
+				ctx.font="normal normal 900 24px Arial";
+				ctx.fillStyle="white";
+				ctx.strokeStyle="black";
+				ctx.lineWidth="1";
+				var shortSize = Math.floor(size);
+				ctx.fillText(shortSize,
+				this.x-(ctx.measureText(shortSize).width/2),
+				this.y+6);
+				ctx.strokeText(shortSize,
+				this.x-(ctx.measureText(shortSize).width/2),
+				this.y+6);
     }
 }
 
