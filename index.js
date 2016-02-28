@@ -17,8 +17,8 @@
 	}
 	this.createPlayer = function() {
 		var player = new Player(
-			Math.floor(Math.random() * (server.width+1)),
-			Math.floor(Math.random() * (server.height+1)),
+				Math.floor(Math.random() * (server.width-20))+20,
+			Math.floor(Math.random() * (server.height-20))+20,
 			10,
 			'#'+Math.floor(Math.random()*16777215).toString(16)
 			, this.pnum++);
@@ -36,11 +36,13 @@
 	this.move = function(keys, index) {
 		for(var i = 0;i < this.players.length;i ++) {
 			if(this.players[i].index == index) {
-				var accel = 100/this.players[i].size;
+				var x = this.players[i].size;
+				var accel = (14+2.4*x)/x;
+				if(accel<1.2)accel=1.2;
 				var xdis = this.players[i].x-keys.mouseX;
 				var ydis = this.players[i].y-keys.mouseY;
 				var h = Math.sqrt(xdis*xdis+ydis*ydis);
-				if(h < 30) h = 20;
+				if(h < 20) h = 10;
 				var ax = accel*xdis/h;
 				var ay = accel*ydis/h;
 				if(Math.abs(ax) < 1) ax = 0;
@@ -73,7 +75,6 @@
 			}
 		}
 		for(var i = 0;i < t.players.length;i ++) {
-		  Delete = [];
 			for(var j = 0;j < t.squares.length;j ++) {
 				if(collision(t.players[i], t.squares[j])) {
 					Delete.push(j);
@@ -83,6 +84,7 @@
 			for(var j = Delete.length-1;j >= 0;j--) {
 				t.removeSquare(Delete[j]);
 			}
+		  Delete = [];
 		}
 	};
 	setInterval(this.mainLoop, 50);
@@ -126,10 +128,10 @@ io.on('connection', function(socket) {
 	var rate = 4000;
 	function calcSquare() {
 	  rate = 4000;
-		if(server.players.length * 12 < server.squares.length) {
+		if(server.players.length * 10 < server.squares.length) {
 		  rate = 8000;
 		}
-		if(server.players.length * 18 < server.squares.length) {
+		if(server.players.length * 15 < server.squares.length) {
 			rate = 5000;
 		}
 	}
