@@ -33,6 +33,13 @@
 			}
 		}
 	};
+	this.setPlayerName = function(index,name) {
+		for(var i = 0;i < this.players.length;i ++) {
+			if(this.players[i].index == index) {
+				this.players[i].name = name;
+			}
+		}
+	}
 	this.move = function(keys, index) {
 		for(var i = 0;i < this.players.length;i ++) {
 			if(this.players[i].index == index) {
@@ -122,18 +129,21 @@ io.on('connection', function(socket) {
 	socket.on('client_controls', function(keys) {
 		server.move(keys, playerIndex);
 	});
+	socket.on('set_name',function(name) {
+		server.setPlayerName(playerIndex,name);
+	});
 	var int = setInterval(function() {
 		socket.emit('update_server', server);
 	}, 20);
 	var rate = 4000;
 	function calcSquare() {
 	  rate = 4000;
-		if(server.players.length * 10 < server.squares.length) {
-		  rate = 8000;
-		}
-		if(server.players.length * 15 < server.squares.length) {
-			rate = 5000;
-		}
+		 if(server.players.length * 10 < server.squares.length) {
+		   rate = 8000;
+		 }
+	 	if(server.players.length * 15 < server.squares.length) {
+	 		rate = 5000;
+	 	}
 	}
 	function squareLoop() {
 		if(rate == 5000) void(0);
@@ -160,7 +170,7 @@ function collision(circle, rect) {
     return (dx * dx + dy * dy <= (circle.size * circle.size));
 }
 
-function Player(x, y, size, color, index) { //Players object 4 server
+function Player(x, y, size, color, index, name) { //Players object 4 server
 	this.x = x;
 	this.y = y;
 	this.size = size;
@@ -168,6 +178,7 @@ function Player(x, y, size, color, index) { //Players object 4 server
 	this.index = index;
 	this.xvel = 0;
 	this.yvel = 0;
+	this.name = "2lazy4name";
 	this.grow =	function(amount) {
 		var current = Math.PI * this.size * this.size;
 		current += amount

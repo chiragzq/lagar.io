@@ -13,6 +13,7 @@ function initNetwork() {
 	});
 	socket.on('init_player', function(pnum) {
 		player_index = pnum;
+		socket.emit('set_name', document.getElementById("name").value);
 	});
 }
 

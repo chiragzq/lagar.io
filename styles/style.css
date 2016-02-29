@@ -16,5 +16,18 @@ body {
     overflow:hidden;
 }
 #canvas {
-	/*	border: 5px solid red;*/
+	z-index: 1;
+}
+#loginBox {
+  position:absolute;
+  z-index:2;
+  left:calc(50% - 100px);
+  top:calc(50% - 19px);
+}
+#gameStart {
+  border:none;
+  background-color: #00ffa2;
+}
+#gameStart:hover {
+	background-image:url("http://media.giphy.com/media/kkoRgXbTCPY3K/giphy.gif");
 }
