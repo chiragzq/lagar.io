@@ -3,7 +3,6 @@ function startGame() {
   initControls();
   setInterval(function(){
     draw(serverState);
-    console.log(serverState.players);
   }, 50);
   setInterval(function(){
     handleControls();

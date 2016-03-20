@@ -23,11 +23,12 @@ function updateDisplay(server) {
 	scrollY = canvas.height/2 - player.y;
 }
 
-function Circle(x, y, size, color) {
+function Circle(x, y, size, color, name) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.color = color;
+		this.name = name;
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -42,12 +43,27 @@ function Circle(x, y, size, color) {
 				ctx.strokeStyle="black";
 				ctx.lineWidth="1";
 				var shortSize = Math.floor(size);
+				var ratio = ctx.measureText(shortSize).width/12;
+				ctx.font="normal normal 900 " + (ratio*(this.size/1.2)) + "px Arial";
+				if(shortSize.toString().length >= 3) {
+					ctx.font="normal normal 900 " + (ratio*(this.size/2)) + "px Arial";
+				}
 				ctx.fillText(shortSize,
 				this.x-(ctx.measureText(shortSize).width/2),
-				this.y+6);
+				this.y+this.size/1.5);
 				ctx.strokeText(shortSize,
 				this.x-(ctx.measureText(shortSize).width/2),
-				this.y+6);
+				this.y+this.size/1.5);
+
+				shortSize = name;
+				ratio = ctx.measureText(shortSize).width/14;
+				ctx.font="normal normal 900 " + (ratio*(this.size/(shortSize.length*(this.size/15)))) + "px Arial";
+				ctx.fillText(shortSize,
+				this.x-(ctx.measureText(shortSize).width/2),
+				this.y-this.size/2.4);
+				ctx.strokeText(shortSize,
+				this.x-(ctx.measureText(shortSize).width/2),
+				this.y-this.size/2.4);
     }
 }
 
@@ -106,7 +122,8 @@ function playerRender(server) {
 			server.players[i].x,
 			server.players[i].y,
 			server.players[i].size,
-			server.players[i].color);
+			server.players[i].color,
+			server.players[i].name);
 		circle.draw();
 	}
 }

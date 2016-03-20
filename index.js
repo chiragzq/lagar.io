@@ -140,9 +140,9 @@ io.on('connection', function(socket) {
 	  rate = 4000;
 		 if(server.players.length * 10 < server.squares.length) {
 		   rate = 8000;
-		 }
+		 };
 	 	if(server.players.length * 15 < server.squares.length) {
-	 		rate = 5000;
+	 		rate = 12000;
 	 	}
 	}
 	function squareLoop() {

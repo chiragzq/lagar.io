@@ -8,8 +8,21 @@
     <body>
 		    <canvas id="canvas" class="canvas"></canvas>
         <div id="loginBox">
-          <input placeholder="Nick" type="text" id="name"></input><br>
+          <input placeholder="Nick" type="text" id="name" maxlength="10"></input><br>
           <button id="gameStart" style="width:201px">Play</button>
+          <script>
+          function buttonPress(e) {
+            var done = 0;
+            var kee = e.keyCode;
+            if(done==0) {
+              if(kee == 13) {
+                done=1;
+                document.getElementById("gameStart").click();
+              }
+            }
+          }
+          document.addEventListener("keydown",buttonPress);
+          </script>
         </div>
         <script src="/scripts/socket.io-1.2.0.js"></script>
         <script src="/scripts/controls.js"></script>
