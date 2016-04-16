@@ -1,10 +1,10 @@
 function startGame() {
   initNetwork();
   initControls();
-  setInterval(function(){
+  intx = setInterval(function(){
     draw(serverState);
   }, 50);
-  setInterval(function(){
+  inty = setInterval(function(){
     handleControls();
   }, 50);
   document.getElementById("loginBox").style.display="none";

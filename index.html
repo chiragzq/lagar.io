@@ -1,14 +1,16 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
     <head>
         <title>Lagar.io</title>
         <link rel="stylesheet" href="/styles/style.css" />
         <link rel="shortcut icon" href="agario.png">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     </head>
     <body>
 		    <canvas id="canvas" class="canvas"></canvas>
+<p align="center"> NOTE: This was a project made by me in sixth grade. It is in no way bug-free or secure. Please do not use any personal information as your player name.</p>
         <div id="loginBox">
-          <input placeholder="Nick" type="text" id="name" maxlength="10"></input><br>
+          <input placeholder="Cheesy poof" type="text" id="name" maxlength="20"></input><br>
           <button id="gameStart" style="width:201px">Play</button>
           <script>
           function buttonPress(e) {
@@ -24,6 +26,7 @@
           document.addEventListener("keydown",buttonPress);
           </script>
         </div>
+        <p id="lost" style="font-size: 50px; display:none">YOU LOST! REFRESH THE PAGE</p>
         <script src="/scripts/socket.io-1.2.0.js"></script>
         <script src="/scripts/controls.js"></script>
         <script src="/scripts/network.js"></script>

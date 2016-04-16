@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 body {
-    font: 13px Syncopate;
+    font: 13px;
     overflow:hidden;
 }
 #canvas {

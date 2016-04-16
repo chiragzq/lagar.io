@@ -11,16 +11,24 @@ function initDisplay(server) { //initial canvas stuff
 	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
 	document.getElementById("canvas").width = w;
 	document.getElementById("canvas").height= h;
-	clientwidth = w;
-	clientheight = h;
-	serverState = server;
+	let ratio = h/w;
+	clientwidth = Math.min(w, 2000);
+	clientheight = clientwidth * ratio;
 }
 
 function updateDisplay(server) {
 	var player = myPlayer(server);
 	serverState = server;
-	scrollX = canvas.width/2 - player.x;
-	scrollY = canvas.height/2 - player.y;
+	var sumX=0;
+	var sumY=0;
+	for(var i = 0;i < player.parts.length;i ++) {
+		sumX+= player.parts[i].x;
+		sumY+= player.parts[i].y;
+	}
+	sumX/=player.parts.length;
+	sumY/=player.parts.length;
+	scrollX = canvas.width/2 - sumX;
+	scrollY = canvas.height/2 - sumY;
 }
 
 function Circle(x, y, size, color, name) {
@@ -88,15 +96,23 @@ function grid(server) {
 	var player = myPlayer(server);
 	var xbounds = clientwidth/2;
 	var ybounds = clientheight/2;
+	var sumX=0;
+	var sumY=0;
+	for(var i = 0;i < player.parts.length;i ++) {
+		sumX+= player.parts[i].x;
+		sumY+= player.parts[i].y;
+	}
+	sumX/=player.parts.length;
+	sumY/=player.parts.length;
     for (var i = -Math.floor(xbounds/45)*45-1; i <= server.width+xbounds; i = i + freq) {
-				if(i < player.x-clientwidth/2 || i > player.x+clientwidth/2)continue;
+				if(i < sumX-clientwidth/2 || i > sumX+clientwidth/2)continue;
         ctx.fillStyle = "#808080";
-        ctx.fillRect(i, player.y-clientheight/2, 1, clientheight);
+        ctx.fillRect(i, sumY-clientheight/2, 1, clientheight);
     }
     for (var i = -Math.floor(ybounds/45)*45-1; i <= server.height+ybounds; i = i + freq) {
-				if(i < player.y-clientheight/2 || i > player.y+clientheight/2)continue;
+				if(i < sumY-clientheight/2 || i > sumY+clientheight/2)continue;
         ctx.fillStyle = "#808080";
-        ctx.fillRect(player.x-clientwidth/2, i, clientwidth, 1);
+        ctx.fillRect(sumX-clientwidth/2, i, clientwidth, 1);
     }
 		ctx.fillStyle="red";
 		ctx.fillRect(0,0,5,server.height);
@@ -115,16 +131,18 @@ function shadeColor(color, percent) {
     return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
 }
 
-function playerRender(server) {
+function playerRender(server) {``
 	var circle = 0;
 	for(var i = 0;i < server.players.length;i ++) {
-		circle = new Circle(
-			server.players[i].x,
-			server.players[i].y,
-			server.players[i].size,
-			server.players[i].color,
-			server.players[i].name);
-		circle.draw();
+		for(var j = 0;j < server.players[i].parts.length; j ++) {
+			circle = new Circle(
+				server.players[i].parts[j].x,
+				server.players[i].parts[j].y,
+				server.players[i].parts[j].size,
+				server.players[i].color,
+				server.players[i].name);
+			circle.draw();
+		}
 	}
 }
 
@@ -148,8 +166,10 @@ function draw(server) { //MAIN drawing loop heoit
 	ctx.clearRect(0, 0, clientwidth, clientheight);
 	ctx.save();
 	ctx.translate(scrollX, scrollY);
+	//let scale = (1 + (server.players[player_index-1].parts[0].size - 10)/400) * 1.5;
+	//ctx.scale(scale, scale);
 	grid(server);
-  playerRender(server);
+  	playerRender(server);
 	squareRender(server);
 	ctx.restore();
 }
@@ -158,6 +178,7 @@ window.addEventListener("resize", function() {
 	var h = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
 	document.getElementById("canvas").width = w;
 	document.getElementById("canvas").height= h;
-	clientheight = h;
-	clientwidth = w;
+	let ratio = h/w;
+	clientwidth = Math.min(w, 2000);
+	clientheight = clientwidth * ratio;
 }, false);
