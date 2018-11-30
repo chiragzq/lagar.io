@@ -1,6 +1,6 @@
 # lagar.io
 
-This was a project made by me in 6th grade to learn a little about node.js and canvas. It is essentially a clone of [http://agar.io](agar.io) with less features.
+This was a project made by me in 6th grade to learn a little about node.js and canvas. It is essentially a clone of [agar.io](http://agar.io) with less features.
 
 
 ## Features
